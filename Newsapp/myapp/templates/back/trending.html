@@ -1,0 +1,91 @@
+{% extends "back/master.html" %}
+{% load static %}
+
+{% block headblock %}
+    <script src="{%  static 'ckeditor/ckeditor.js' %}"></script>
+
+{% endblock %}
+
+
+
+{% block mainblock %}
+
+
+    <div class="block full">
+        <div class="block-title">
+            <h2><strong>Add</strong>Trends</h2>
+        </div>
+        <div class="table-responsive"></div>
+
+        <form action="" method="POST" enctype="multipart/form-data" class="form-group">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Trending Title</label>
+                <input type="text" id="trending" name="trending" class="form-control" placeholder="Add Trending">
+            </div>
+
+
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+
+
+
+    <!-- Datatables Content -->
+    <div class="block full">
+        <div class="block-title">
+            <h2><strong>News</strong> List</h2>
+        </div>
+
+        <div class="table-responsive">
+            <table id="example-datatable" class="table table-vcenter table-condensed table-bordered">
+                <thead>
+                <tr>
+                    <th class="text-center">ID</th>
+
+                    <th>Headline</th>
+
+                    <th class="text-center">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for c in trending %}
+                    <tr>
+                        <td class="text-center">{{c.pk}}</td>
+
+                        <td>{{c.headline}}</td>
+
+                        <td class="text-center">
+                            <div class="btn-group">
+                                <a href="{% url 'trending_edit' id=c.pk %}" data-toggle="tooltip" title="Edit" class="btn btn-xs btn-default"><i class="fa fa-pencil">Edit</i></a>
+                                <a href="{% url 'trending_del' id=c.pk %}" data-toggle="tooltip" title="Delete" class="btn btn-xs btn-danger"><i class="fa fa-times">Delete</i></a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- END Datatables Content -->
+
+
+
+
+
+
+
+
+{% endblock %}
+
+
+
+{% block footerblock %}
+    <!-- Load and execute javascript code used only in this page -->
+    <script src="{% static "back/js/pages/tablesDatatables.js" %}"></script>
+    <script>$(function(){ TablesDatatables.init(); });</script>
+{% endblock %}
+

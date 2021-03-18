@@ -1,0 +1,16 @@
+{% extends "back/master.html" %}
+{% load static%}
+{% block mainblock %}
+    <!-- Page content -->
+   <h2>{{ error}}</h2>
+    <h2>
+    <a href="{% url 'news_add' %}">Please Click Here to Go Back</a>
+    </h2>
+{% endblock %}
+
+
+{% block footerblock %}
+    <!-- Load and execute javascript code used only in this page -->
+    <script src="{% static "back/js/pages/tablesDatatables.js" %}"></script>
+    <script>$(function(){ TablesDatatables.init(); });</script>
+{% endblock %}

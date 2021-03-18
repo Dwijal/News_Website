@@ -1,0 +1,114 @@
+{% extends "back/master.html" %}
+{% load static%}
+{% block mainblock %}
+    <!-- Page content -->
+    <div id="page-content">
+        <!-- Datatables Header -->
+        <div class="content-header">
+            <div class="header-section">
+                <h1>
+                    <i class="fa fa-table"></i>News List<br><small>This is News Dashboard</small>
+                </h1>
+            </div>
+        </div>
+        <ul class="breadcrumb breadcrumb-top">
+            <li>Tables</li>
+            <li><a href="/panel/news/list/">list</a></li>
+        </ul>
+        <!-- END Datatables Header -->
+
+        <!-- Datatables Content -->
+        <div class="block full">
+            <div class="block-title">
+                <h2><strong>News</strong> List</h2>
+            </div>
+
+            <div class="table-responsive">
+                <table id="example-datatable" class="table table-vcenter table-condensed table-bordered">
+                    <thead>
+                    <tr>
+                        <th class="text-center">ID</th>
+                        <th class="text-center">Image</th>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Category</th>
+                        <th>Writer</th>
+                        <th>Active</th>
+                        <th>Views</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for c in News %}
+                    <tr>
+                        <td class="text-center">{{ c.rand   }}</td>
+                        <td class="text-center"><img src="{{c.picurl}}" alt="avatar" class="img-circle" width="45" height="45" ></td>
+                        <td>{{c.name}}</td>
+                        <td>{{c.date}}</td>
+                        <td>{{c.catname}}</td>
+                        <td>{{c.author}}</td>
+                        {% if c.act == 0 %}
+                        <td>Pending</td>
+                        {% elif c.act == 1 %}
+                        <td>Confirmed</td>
+                        {% endif %}
+                        <td>{{c.show}}</td>
+                        <td class="text-center">
+                            <div class="btn-group">
+                                <a href="{% url 'news_edit' id=c.pk  %}" data-toggle="tooltip" title="Edit" class="btn btn-xs btn-default"><i class="fa fa-pencil">Edit</i></a>
+                                <a href="{% url 'news_delete' id=c.pk  %}" data-toggle="tooltip" title="Delete" class="btn btn-xs btn-danger"><i class="fa fa-times">Delete</i></a>
+                                {% if perms.main.masteruser %}
+                                <a href="{% url 'news_published' id=c.pk  %}" data-toggle="tooltip" title="Edit" class="btn btn-xs btn-default"><i class="fa fa-pencil">Published</i></a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            Page {{ News.number }} from {{ News.paginator.num_pages }}
+            <br>
+            <br>
+
+
+               {% if News.has_previous %}
+                <a href="?page={{ News.previous_page_number }}" data-toggle="tooltip" title="Previous" class="btn btn-xs btn-default"><i class="">Previous</i></a>
+                {% endif %}
+
+           {% for i in News.paginator.page_range %}
+
+
+
+               {% if News.number == i %}
+                <a href="" onclick="return false;" data-toggle="tooltip" title="{{ Disables }}" class="btn btn-xs btn-default"><i class="">{{ i }}</i></a>
+                {% else %}
+               <a href="?page={{ i }}"  data-toggle="tooltip" title="{{ i }}" class="btn btn-xs btn-default"><i class="">{{ i }}</i></a>
+               {% endif %}
+           {% endfor %}
+
+
+
+
+                {% if News.has_next %}
+                <a href="?page={{ News.next_page_number }}" data-toggle="tooltip" title="Next" class="btn btn-xs btn-default"><i class="">Next</i></a>
+                {% endif %}
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+        <!-- END Datatables Content -->
+    </div>
+    <!-- END Page Content -->
+{% endblock %}
+
+
+{% block footerblock %}
+<!-- Load and execute javascript code used only in this page -->
+
+{% endblock %}

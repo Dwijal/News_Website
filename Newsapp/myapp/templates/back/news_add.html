@@ -1,0 +1,89 @@
+{% extends "back/master.html" %}
+{% load static %}
+
+{% block headblock %}
+    <script src="{%  static 'ckeditor/ckeditor.js' %}"></script>
+
+{% endblock %}
+
+
+
+{% block mainblock %}
+
+
+    <div class="block full">
+        <div class="block-title">
+            <h2><strong>Add</strong>News</h2>
+        </div>
+        <div class="table-responsive"></div>
+
+        <form action="{% url 'news_add' %}" method="POST" enctype="multipart/form-data" class="form-group">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>News Title</label>
+                <input type="text" id="newstitle" name="newstitle" class="form-control" placeholder="What is title of the news">
+            </div>
+
+            <div class="form-group">
+                <label>News Category</label>
+                <div class="form-group">
+                        <select id="newscat" name="newscat" class="select-chosen" data-placeholder="Choose a Country.." style="width: 250px;">
+
+                           {% for i in cat %}
+
+                            <option value="{{i.pk}}">{{ i.catname}}|{{i.name }}</option>
+
+                            {% endfor %}
+                        </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>News Summary</label>
+                <textarea id="newssum" name="newssum" class="form-control"  rows="3"></textarea>
+            </div>
+
+            <script>
+                CKEDITOR.replace( 'newssum' );
+            </script>
+
+
+
+            <div class="form-group">
+                <label>News Body</label>
+                <textarea id="newsbody" name="newsbody" class="form-control"  rows="3"></textarea>
+            </div>
+
+            <script>
+                CKEDITOR.replace( 'newsbody' );
+            </script>
+
+            <div class="form-group">
+                <input type="file" id="myfiles" name="myfiles" rows="5" class="form-control" placeholder="Body txt" \>
+            </div>
+
+
+            <div class="form-group">
+            <label>Tags</label>
+            <textarea id="tags" name="tags" class="form-control"  rows="3" placeholder="Tags"></textarea>
+            </div>
+
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+
+
+
+{% endblock %}
+
+
+
+{% block footerblock %}
+    <!-- Load and execute javascript code used only in this page -->
+    <script src="{% static "back/js/pages/tablesDatatables.js" %}"></script>
+    <script>$(function(){ TablesDatatables.init(); });</script>
+{% endblock %}
+

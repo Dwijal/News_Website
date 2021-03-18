@@ -1,0 +1,78 @@
+{% extends "back/master.html" %}
+{% load static%}
+{% block mainblock %}
+    <!-- Page content -->
+    <div id="page-content">
+        <!-- Datatables Header -->
+        <div class="content-header">
+            <div class="header-section">
+                <h1>
+                    <i class="fa fa-table"></i>Emails List<br><small>This is Emails Dashboard</small>
+                </h1>
+            </div>
+        </div>
+        <ul class="breadcrumb breadcrumb-top">
+            <li>Emails</li>
+            <li><a href="{% url 'news_emails' %}">list</a></li>
+        </ul>
+        <!-- END Datatables Header -->
+
+        <!-- Datatables Content -->
+
+
+        <div class="block full">
+            <div class="block-title">
+                <h2><strong>Email</strong> List</h2>
+            </div>
+
+            <form action="{% url 'checkboxlist'%}" method="POST" enctype="multipart/form-data" class="form-group">
+                {% csrf_token %}
+
+            <div class="table-responsive">
+                <table id="example-datatable" class="table table-vcenter table-condensed table-bordered">
+                    <thead>
+                    <tr>
+                        <th class="text-center">&nbsp</th>
+                        <th class="text-center">ID</th>
+
+                        <th>Email</th>
+
+                        <th class="text-center">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for c in emails %}
+                        <tr>
+{#                            <td><input type='checkbox' name='{{c.pk}}' id='check' class="text-center"></td>#}
+                            <td><input type='checkbox' name="check[]" value="{{ c.pk }}"></td>
+                            <td class="text-center">{{c.pk}}</td>
+                            <td>{{c.txt}}</td>
+
+                            <td class="text-center">
+                                <div class="btn-group">
+
+                                    <a href="{% url 'news_txt_del' id=c.pk name=1  %}" data-toggle="tooltip" title="Delete" class="btn btn-xs btn-danger"><i class="fa fa-times">Delete</i></a>
+
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+
+        </div>
+        <!-- END Datatables Content -->
+    </div>
+    <!-- END Page Content -->
+{% endblock %}
+
+
+{% block footerblock %}
+    <!-- Load and execute javascript code used only in this page -->
+    <script src="{% static "back/js/pages/tablesDatatables.js" %}"></script>
+    <script>$(function(){ TablesDatatables.init(); });</script>
+{% endblock %}

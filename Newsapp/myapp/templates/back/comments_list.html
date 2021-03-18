@@ -1,0 +1,79 @@
+{% extends "back/master.html" %}
+{% load static%}
+{% block mainblock %}
+    <!-- Page content -->
+    <div id="page-content">
+        <!-- Datatables Header -->
+        <div class="content-header">
+            <div class="header-section">
+                <h1>
+                    <i class="fa fa-table"></i>Comments List<br><small>This is Comments Dashboard</small>
+                </h1>
+            </div>
+        </div>
+        <ul class="breadcrumb breadcrumb-top">
+            <li>Comments</li>
+            <li><a href="{% url 'comments_list' %}">list</a></li>
+        </ul>
+        <!-- END Datatables Header -->
+
+        <!-- Datatables Content -->
+        <div class="block full">
+            <div class="block-title">
+                <h2><strong>Comments</strong> List</h2>
+            </div>
+
+            <div class="table-responsive">
+                <table id="example-datatable" class="table table-vcenter table-condensed table-bordered">
+                    <thead>
+                    <tr>
+                        <th class="text-center">ID</th>
+
+                        <th>Name</th>
+                        <th>Date and Time</th>
+                        <th>Email</th>
+                        <th>Comment</th>
+                        <th>Status</th>
+
+                        <th class="text-center">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for c in comments %}
+                        <tr>
+                            <td class="text-center">{{ c.pk   }}</td>
+
+                            <td>{{c.name}}</td>
+                            <td>{{c.date}}|{{ c.time }}</td>
+                            <td>{{c.email}}</td>
+                            <td>{{c.comments}}</td>
+                            {% if c.status == 0 %}
+                            <td> Pending </td>
+                            {% elif c.status == 1 %}
+                            <td>Confirmed </td>
+                            {% endif %}
+
+                            <td class="text-center">
+                                <div class="btn-group">
+                                    <a href="{% url 'comments_confirm' id=c.pk  %}" data-toggle="tooltip" title="Confirm" class="btn btn-xs btn-default"><i class="fa fa-pencil">Confirm</i></a>
+                                    <a href="{% url 'comments_del' id=c.pk  %}" data-toggle="tooltip" title="Delete" class="btn btn-xs btn-danger"><i class="fa fa-times">Delete</i></a>
+
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- END Datatables Content -->
+    </div>
+    <!-- END Page Content -->
+{% endblock %}
+
+
+{% block footerblock %}
+    <!-- Load and execute javascript code used only in this page -->
+    <script src="{% static "back/js/pages/tablesDatatables.js" %}"></script>
+    <script>$(function(){ TablesDatatables.init(); });</script>
+{% endblock %}

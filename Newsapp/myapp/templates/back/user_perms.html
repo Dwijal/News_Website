@@ -1,0 +1,104 @@
+{% extends "back/master.html" %}
+{% load static%}
+{% block mainblock %}
+    <!-- Page content -->
+    <div id="page-content">
+        <!-- Datatables Header -->
+        <div class="content-header">
+            <div class="header-section">
+                <h1>
+                    <i class="fa fa-table"></i>User Permissions<br><small>This is User Permission Dashboard</small>
+                </h1>
+            </div>
+        </div>
+        <ul class="breadcrumb breadcrumb-top">
+            <li>Tables</li>
+            <li><a href="manager/group/">list</a></li>
+        </ul>
+        <!-- END Datatables Header -->
+
+        <!-- Datatables Content -->
+
+
+        <div class="block full">
+            <div class="block-title">
+                <h2><strong>User</strong>Permissions</h2>
+            </div>
+            <div class="table-responsive"></div>
+
+            <form action="{% url 'user_perms_add' id %}" method="POST" enctype="multipart/form-data" class="form-group">
+                {% csrf_token %}
+
+                <div class="form-group">
+
+                    <label>Add User to Permissions</label>
+
+                    <div class="form-group">
+                        <select id="pname" name="pname" class="select-chosen" data-placeholder="Choose a Country.." style="width: 250px;">
+
+                            {% for i in perms %}
+
+                                <option value="{{i.name }}">{{i.name}}</option>
+
+                            {% endfor %}
+
+                        </select>
+                    </div>
+
+
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+
+
+        <div class="block full">
+            <div class="block-title">
+                <h2><strong>Permissions</strong> List</h2>
+            </div>
+
+
+
+            <div class="table-responsive">
+                <table id="example-datatable" class="table table-vcenter table-condensed table-bordered">
+                    <thead>
+                    <tr>
+
+
+                        <th>Permissions Name</th>
+
+                        <th class="text-center">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for c in uperms %}
+                        <tr>
+                            <td>{{c}}</td>
+
+                            <td class="text-center">
+                                <div class="btn-group">
+
+                                    <a href="{% url 'user_perms_del' id=id name=c  %}" data-toggle="tooltip" title="Delete" class="btn btn-xs btn-danger"><i class="fa fa-times">Delete</i></a>
+
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- END Datatables Content -->
+    </div>
+    <!-- END Page Content -->
+{% endblock %}
+
+
+{% block footerblock %}
+    <!-- Load and execute javascript code used only in this page -->
+    <script src="{% static "back/js/pages/tablesDatatables.js" %}"></script>
+    <script>$(function(){ TablesDatatables.init(); });</script>
+{% endblock %}
